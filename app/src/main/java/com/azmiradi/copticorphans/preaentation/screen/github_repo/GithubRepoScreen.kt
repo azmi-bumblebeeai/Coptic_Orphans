@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -13,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction.Companion.Done
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,12 +30,19 @@ fun GithubRepoScreen(
     viewModel: GithubRepoViewModel = hiltViewModel()
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
-
+    val searchQuery = remember { mutableStateOf("") }
     val accountResult by viewModel.githubRepoResult.collectAsState()
     val loading = remember { mutableStateOf(false) }
     val githubRepositories = remember { mutableStateListOf<Repository>() }
 
-
+    val filteredRepositories = remember(key1 = searchQuery.value) {
+        if (searchQuery.value.isEmpty() || searchQuery.value.isBlank())
+            githubRepositories
+        else
+            githubRepositories.filter { repository ->
+                repository.name.contains(searchQuery.value, ignoreCase = true)
+            }
+    }
 
     when (accountResult) {
         is Result.Initial -> {
@@ -62,12 +72,34 @@ fun GithubRepoScreen(
         }
     ) {
         ProgressBar(isShow = loading.value)
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp),
-            content = {
-                items(githubRepositories) {
-                    RepositoryItem(it)
-                }
-            })
+        Column(Modifier.fillMaxSize()) {
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                value = searchQuery.value,
+                onValueChange = {
+                    searchQuery.value = it
+                },
+
+                label = {
+                    Text("Search")
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = Done
+                )
+            )
+
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp),
+                content = {
+                    items(filteredRepositories) {
+                        RepositoryItem(it)
+                    }
+                })
+        }
+
+
     }
 
 

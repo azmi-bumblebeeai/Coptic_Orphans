@@ -19,6 +19,7 @@ import javax.inject.Inject
 class GithubRepoViewModel @Inject constructor(
     private val getGithubRepoForUserUseCase: GetGithubRepoForUserUseCase,
 ) : ViewModel() {
+
     private val _githubRepoResult = MutableStateFlow<Result<List<Repository>>>(Result.Initial)
     val githubRepoResult: StateFlow<Result<List<Repository>>> = _githubRepoResult.asStateFlow()
 
@@ -26,10 +27,11 @@ class GithubRepoViewModel @Inject constructor(
         _githubRepoResult.value = Result.Loading
 
         viewModelScope.launch {
-             val result = getGithubRepoForUserUseCase(username)
+            val result = getGithubRepoForUserUseCase(username)
             _githubRepoResult.value = result
         }
     }
+
 
     init {
         getGithubRepo("azmiradi")
