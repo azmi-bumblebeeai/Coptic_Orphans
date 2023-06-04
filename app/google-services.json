@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "17682364325",
+    "project_id": "coptic-orphans-b4b46",
+    "storage_bucket": "coptic-orphans-b4b46.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17682364325:android:f85384b61dbaf96c299a4c",
+        "android_client_info": {
+          "package_name": "com.azmiradi.copticorphans"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17682364325-62peo5a6fsaif9g7tbcpujcsu62i5at2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCj0A3f7chCmoJb0-xBBx8BdKryGabNkgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "17682364325-62peo5a6fsaif9g7tbcpujcsu62i5at2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
